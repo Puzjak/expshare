@@ -1,0 +1,26 @@
+﻿
+@model List<TrenutnoStanjeKorisnikaUgrupi>
+<h3>Moje grupe</h3>
+<table class="table table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>Ime</th>
+            <th>Moje stanje</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var grupa in Model)
+        {
+            <tr>
+                <td>@grupa.IdGrupaNavigation.NazivGrupa</td>
+                <td>@Decimal.Round(grupa.Stanje, 2) kn</td>
+                <td>
+                    <button class="btn btn-success" onclick="detaljiGrupeModal('@grupa.IdGrupa')" data-toggle="modal" data-target="#detaljiGrupeModal">
+                        Otvori
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
