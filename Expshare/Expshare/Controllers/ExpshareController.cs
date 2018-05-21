@@ -115,6 +115,13 @@ namespace Expshare.Controllers
 
         public IActionResult Home()
         {
+            var id = User.Claims
+                .Where(x => x.Type == ClaimTypes.NameIdentifier)
+                .Select(x => x.Value)
+                .Single();
+            var grupe = _context.TrenutnoStanjeKorisnikaUgrupi
+                .Where(x => x.IdKorisnik.Equals(new Guid(id)))
+                .ToList();
             return View();
         }
 
@@ -125,6 +132,7 @@ namespace Expshare.Controllers
                 .Select(x => new { id = x.Value })
                 .Single());
         }
+
 
         public JsonResult DohvatiUkupnoStanjeKorisnika(Guid id)
         {
@@ -213,7 +221,9 @@ namespace Expshare.Controllers
 
         public JsonResult DohvatiNazivGrupe(Guid id)
         {
-            return Json(_context.Grupa.Where(x => x.ID == id).Select(x => x.NazivGrupa).SingleOrDefault());
+            return Json(_context.Grupa
+                .Where(x => x.ID == id)
+                .Select(x => x.NazivGrupa).SingleOrDefault());
         }
 
         [HttpPost]

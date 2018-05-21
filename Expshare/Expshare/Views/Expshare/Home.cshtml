@@ -2,10 +2,11 @@
 
 @await Component.InvokeAsync("DohvatiGrupe", Context.User.Claims
                 .Where(x => x.Type == ClaimTypes.NameIdentifier)
-                .Select(x => new { id = new Guid(x.Value) })
+                .Select(x => new Guid(x.Value))
                 .Single())
 
 
 <div class="modal fade" id="detaljiGrupeModal" role="dialog" data-backdrop="static" data-keyboard="false">
     @await Html.PartialAsync("Modals\\DetaljiGrupeModal")
 </div>
+<a asp-controller="Grupa" asp-action="Create">Stvori novu grupu</a>

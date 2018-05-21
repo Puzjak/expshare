@@ -1,13 +1,13 @@
 ﻿@model Expshare.ViewModels.LoginViewModel
 
-<h4>LoginViewModel</h4>
+<h4>Log-in</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
+                <label asp-for="Email" class="control-label">E-mail</label>
                 <input asp-for="Email" class="form-control" id="emailLogin" oninput="checkLogin()"/>
                 <span asp-validation-for="Email" class="text-danger" id="emailLoginSpan"></span>
             </div>
@@ -30,8 +30,8 @@
     </div>
 </div>
 
-<div>
+@*<div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@
 
 

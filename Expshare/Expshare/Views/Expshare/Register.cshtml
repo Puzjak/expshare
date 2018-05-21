@@ -1,6 +1,6 @@
 ﻿@model Expshare.ViewModels.RegisterViewModel
 
-<h4>RegisterViewModel</h4>
+<h4>Registriraj se</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -8,18 +8,18 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
+                <label asp-for="Email" class="control-label">E-mail</label>
                 <input asp-for="Email" class="form-control" id="emailRegister" oninput="checkRegister()"/>
                 <span asp-validation-for="Email" class="text-danger" id="emailRegisterSpan"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Lozinka" class="control-label"></label>
-                <input asp-for="Lozinka" class="form-control" id="lozinkaRegister" oninput="checkRegister()" />
+                <label asp-for="Lozinka" class="control-label">Lozinka</label>
+                <input asp-for="Lozinka" class="form-control" id="lozinkaRegister" oninput="checkRegister()" type="password" />
                 <span asp-validation-for="Lozinka" class="text-danger" id="lozinkaRegisterSpan"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PotvrdiLozinku" class="control-label"></label>
-                <input asp-for="PotvrdiLozinku" class="form-control" id="potvrdiLozinkuRegister" oninput="checkRegister()" />
+                <input asp-for="PotvrdiLozinku" class="form-control" id="potvrdiLozinkuRegister" oninput="checkRegister()" type="password" />
                 <span asp-validation-for="PotvrdiLozinku" class="text-danger" id="potvrdiLozinkuRegisterSpan"></span>
             </div>
             <div class="form-group">
@@ -36,6 +36,6 @@
     </div>
 </div>
 
-<div>
+@*<div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@

@@ -25,9 +25,10 @@ namespace Expshare.ViewComponents
 
         private Task<List<TrenutnoStanjeKorisnikaUgrupi>> DohvatiGrupeAsync(Guid ID)
         {
-            var grupe = _context.TrenutnoStanjeKorisnikaUgrupi
+
+            var grupe =  _context.TrenutnoStanjeKorisnikaUgrupi
                 .Include(x => x.IdGrupaNavigation)
-                .Where(x => x.IdKorisnik == ID)
+                .Where(x => x.IdKorisnik.Equals(ID))
                 .ToListAsync();
             return grupe;
         }
