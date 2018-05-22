@@ -37,18 +37,18 @@ namespace Expshare
             return newPasswordHash == passwordHash;
         }
 
-        public static void UpdateTrenutnoStanje(this ExpShareContext context, List<Guid> korisnici)
+        public static void UpdateTrenutnoStanje(this ExpShareContext context, List<Guid> korisnici, Guid idGrupa)
         {
             var oldTrenutnoStanjeKorisnika = context.TrenutnoStanjeKorisnika
                 .Where(x => korisnici.Contains(x.IdKorisnik));
             context.TrenutnoStanjeKorisnika.RemoveRange(oldTrenutnoStanjeKorisnika);
             context.SaveChanges();
             var oldTrenutnoStanjeKorisnikaUGrupi = context.TrenutnoStanjeKorisnikaUgrupi
-                .Where(x => korisnici.Contains(x.IdKorisnik));
+                .Where(x => korisnici.Contains(x.IdKorisnik) && x.IdGrupa == idGrupa);
             context.TrenutnoStanjeKorisnikaUgrupi.RemoveRange(oldTrenutnoStanjeKorisnikaUGrupi);
             context.SaveChanges();
             var oldStanjeIzmeduKorisnika = context.StanjeIzmeduKorisnika
-                .Where(x => korisnici.Contains(x.IdKorisnik) || korisnici.Contains(x.IdDugovatelj));
+                .Where(x => korisnici.Contains(x.IdKorisnik) || korisnici.Contains(x.IdDugovatelj) && x.IdGrupa == idGrupa);
             context.StanjeIzmeduKorisnika.RemoveRange(oldStanjeIzmeduKorisnika);
             context.SaveChanges();
             var computedTrenutnoStanjeKorisnika = context.TrenutnoStanjeKorisnika
@@ -57,11 +57,11 @@ namespace Expshare
                 .ToList();
             var computedTrenutnoStanjeKorisnikaUGrupi = context.TrenutnoStanjeKorisnikaUgrupi
                 .FromSql("SELECT * FROM ComputedTrenutnoStanjeKorisnikaUGrupi")
-                .Where(x => korisnici.Contains(x.IdKorisnik))
+                .Where(x => korisnici.Contains(x.IdKorisnik) && x.IdGrupa == idGrupa)
                 .ToList();
             var computedStanjeIzmeduKorisnika = context.StanjeIzmeduKorisnika
                 .FromSql("SELECT * FROM ComputedStanjeIzmeduKorisnika")
-                .Where(x => korisnici.Contains(x.IdKorisnik) || korisnici.Contains(x.IdDugovatelj))
+                .Where(x => korisnici.Contains(x.IdKorisnik) || korisnici.Contains(x.IdDugovatelj) && x.IdGrupa == idGrupa)
                 .ToList();
 
             context.TrenutnoStanjeKorisnika.AddRange(computedTrenutnoStanjeKorisnika);

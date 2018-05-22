@@ -189,7 +189,7 @@ namespace Expshare.Controllers
             {
                 korisniciZaUplatu.Add(model.IdKorisnik);
             }
-            _context.UpdateTrenutnoStanje(korisniciZaUplatu);
+            _context.UpdateTrenutnoStanje(korisniciZaUplatu, model.IdGrupa);
             return Json(model);
         }
 
@@ -254,7 +254,7 @@ namespace Expshare.Controllers
             });
             _context.SaveChanges();
 
-            _context.UpdateTrenutnoStanje(new List<Guid> { postojeciKorisnik.ID });
+            _context.UpdateTrenutnoStanje(new List<Guid> { postojeciKorisnik.ID }, model.IdGrupa);
 
             return Json(string.Empty);
         }

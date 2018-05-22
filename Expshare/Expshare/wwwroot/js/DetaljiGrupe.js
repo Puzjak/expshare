@@ -93,6 +93,36 @@
     });
 }
 
+function validateAmount(amount, amountSpan) {
+    if (amount.length !== 0) {
+        if (amount > 0) {
+            amountSpan.textContent = "";
+            return true;
+        } else {
+            amountSpan.textContent = "Unesite pozitivan iznos";
+            return false;
+        }
+    }
+     else {
+        amountSpan.textContent = "Unesite iznos";
+        return false;
+    }
+}
+
+function checkAmount() {
+    var amount = document.getElementById("iznosKreirajUplatu").value;
+    var btn = document.getElementById("uplataConfirmBtn");
+    var amountSpan = document.getElementById("amountSpan");
+
+    var amountCorrect = validateAmount(amount, amountSpan);
+
+    if (amountCorrect === true) {
+        btn.disabled = false;
+    } else {
+        btn.disabled = true;
+    }
+}
+
 function kreirajUplatu() {
     hideWhileLoading();
     showLoadingImage();

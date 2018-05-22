@@ -16,22 +16,6 @@ function validateEmail(email, span) {
     }
 }
 
-function validateNickname(nickname, span) {
-    span.textContent = "";
-    if (nickname == null && nickname === "") {
-        return false;
-
-    } else if (nickname.length < 3) {
-        span = "Nickname mora imati najmanje tri znaka!";
-        return false;
-
-    } else if (nickname.length > 50) {
-        span = "Nickname ne smije imati više od 50 znakova!";
-        return false;
-
-    }
-    return true;
-}
 
 function validateLozinka(lozinka, span) {
     if (lozinka === null || lozinka === "") {
@@ -90,9 +74,8 @@ function checkRegister() {
     var emailCorrect = validateEmail(email, emailSpan);
     var lozinkaCorrect = validateLozinka(lozinka, lozinkaSpan);
     var potvrdiLozinkuCorrect = validatePotvrdiLozinku(lozinka, potvrdiLozinku, potvrdiLozinkuSpan);
-    var nicknameCorrect = validateNickname(nickname, nicknameSpan);
 
-    if (emailCorrect === true && lozinkaCorrect === true && potvrdiLozinkuCorrect === true && nicknameCorrect === true) {
+    if (emailCorrect === true && lozinkaCorrect === true && potvrdiLozinkuCorrect === true) {
         registerButton.disabled = false;
     } else {
         registerButton.disabled = true;
