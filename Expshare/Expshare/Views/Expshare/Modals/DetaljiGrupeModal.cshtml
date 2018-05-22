@@ -10,7 +10,7 @@
             <input class="hidden" id="trenutniKorisnik" value="@Context.User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).Single()" />
             <input class="hidden" id="trenutnaGrupa" />
             <div style="text-align: center">
-                <button class="btn btn-success" data-toggle="collapse" data-target="#kreirajUplatu">Kreiraj uplatu</button>
+                <button class="btn btn-success" id="buttonKreirajUplatu" data-toggle="collapse" data-target="#kreirajUplatu">Kreiraj uplatu</button>
             </div>
             <div id="kreirajUplatu" class="collapse row" style="margin-left: 5%;margin-right: 5%">
                 <div class="col-md-1"></div>
@@ -43,40 +43,46 @@
                 <div class="col-md-1"></div>
             </div>
             <hr /> <br />
-            <h4>Moji dugovi</h4>
-            <table class="table table-hover table-responsive">
-                <thead>
+            <div id="loading" style="display: none;">
+                <p style="text-align:center;"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Učitavanje..." /></p>
+            </div>
+            <div id="hideWhileLoading" style="display: block;">
+                <h4>Moji dugovi</h4>
+                <table class="table table-hover table-responsive">
+                    <thead>
                     <tr>
                         <th>Email</th>
                         <th>Iznos</th>
                     </tr>
-                </thead>
-                <tbody id="mojiDugoviTable"></tbody>
-            </table>
-            <hr /> <br />
-            <h4>Dugovanja prema meni</h4>
-            <table class="table table-hover table-responsive">
-                <thead>
+                    </thead>
+                    <tbody id="mojiDugoviTable"></tbody>
+                </table>
+                <hr /> <br />
+                <h4>Dugovanja prema meni</h4>
+                <table class="table table-hover table-responsive">
+                    <thead>
                     <tr>
                         <th>Email</th>
                         <th>Iznos</th>
                     </tr>
-                </thead>
-                <tbody id="dugovanjaPremaMeniTable"></tbody>
-            </table>
-            <hr /> <br />
-            <h4>Članovi</h4>
-            <table class="table table-hover table-responsive">
-                <thead>
+                    </thead>
+                    <tbody id="dugovanjaPremaMeniTable"></tbody>
+                </table>
+                <hr /> <br />
+                <h4>Članovi</h4>
+                <table class="table table-hover table-responsive">
+                    <thead>
                     <tr>
                         <th>Email</th>
                         <th>Stanje</th>
                     </tr>
-                </thead>
-                <tbody id="detaljiGrupeTable"></tbody>
-            </table>
+                    </thead>
+                    <tbody id="detaljiGrupeTable"></tbody>
+                </table>    
+            </div>
+            
             <div style="text-align: center">
-                <button class="btn btn-success" data-toggle="collapse" data-target="#dodajClana">Dodaj člana</button>
+                <button class="btn btn-success" id="buttonDodajClana" data-toggle="collapse" data-target="#dodajClana">Dodaj člana</button>
             </div>
             <div id="dodajClana" class="collapse row" style="margin-left: 5%;margin-right: 5%">
                 <div class="col-md-1"></div>
