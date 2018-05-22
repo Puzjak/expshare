@@ -66,13 +66,41 @@
                         <th>Nadimak</th>
                         <th>Iznos</th>
                     </tr>
-                    </thead>
-                    <tbody id="dugovanjaPremaMeniTable"></tbody>
-                </table>
-                <hr /> <br />
-                <h4>Članovi</h4>
-                <table class="table table-hover table-responsive">
-                    <thead>
+                </thead>
+                <tbody id="dugovanjaPremaMeniTable"></tbody>
+            </table>
+            <div style="text-align: center">
+                <button class="btn btn-success" data-toggle="collapse" data-target="#razrijesiDugove">Razrješi dugove</button>
+            </div>
+            <div id="razrijesiDugove" class="collapse row" style="margin-left: 5%;margin-right: 5%">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <br />
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Osoba: </label>
+                            <select class="dropdown" type="text" id="razrijesiSOsobom" onchange="iznosZaRazrjesavanje()"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Iznos: </label>
+                            <input class="form-control" type="number" step="0.01" id="razrijesiIznos" />
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2" style="float: right">
+                                <button class="btn btn-warning" data-toggle="collapse" data-target="#razrijesiDugove">Odustani</button>
+                            </div>
+                            <div class="col-md-2" style="float: right">
+                                <button class="btn btn-success" data-toggle="collapse" data-target="#razrijesiDugove" onclick="razrijesiDugove()">Potvrdi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <hr /> <br />
+            <h4>Članovi</h4>
+            <table class="table table-hover table-responsive">
+                <thead>
                     <tr>
                         <th>Nadimank</th>
                         <th>Stanje</th>
@@ -92,7 +120,11 @@
                     <div class="row">
                         <div class="form-group">
                             <label>Email: </label>
-                            <input class="form-control" type="email" id="dodajClanaEmail"/>
+                            <input class="form-control" type="email" id="dodajClanaEmail" />
+                        </div>
+                        <div class="form-group">
+                            <label>Nadimak: </label>
+                            <input class="form-control" type="text" id="nickname" />
                         </div>
                         <div class="form-group">
                             <div class="col-md-2" style="float: right">
