@@ -16,6 +16,23 @@ function validateEmail(email, span) {
     }
 }
 
+function validateNickname(nickname, span) {
+    span.textContent = "";
+    if (nickname == null && nickname === "") {
+        return false;
+
+    } else if (nickname.length < 3) {
+        span = "Nickname mora imati najmanje tri znaka!";
+        return false;
+
+    } else if (nickname.length > 50) {
+        span = "Nickname ne smije imati više od 50 znakova!";
+        return false;
+
+    }
+    return true;
+}
+
 function validateLozinka(lozinka, span) {
     if (lozinka === null || lozinka === "") {
         span.textContent = "";
@@ -62,6 +79,8 @@ function checkLogin() {
 function checkRegister() {
     var email = document.getElementById("emailRegister").value;
     var emailSpan = document.getElementById("emailRegisterSpan");
+    var nickname = document.getElementById("nicknameRegister");
+    var nicknameSpan = document.getElementById("nicknameRegisterSpan");
     var lozinka = document.getElementById("lozinkaRegister").value;
     var lozinkaSpan = document.getElementById("lozinkaRegisterSpan");
     var potvrdiLozinku = document.getElementById("potvrdiLozinkuRegister").value;
@@ -71,8 +90,9 @@ function checkRegister() {
     var emailCorrect = validateEmail(email, emailSpan);
     var lozinkaCorrect = validateLozinka(lozinka, lozinkaSpan);
     var potvrdiLozinkuCorrect = validatePotvrdiLozinku(lozinka, potvrdiLozinku, potvrdiLozinkuSpan);
+    var nicknameCorrect = validateNickname(nickname, nicknameSpan);
 
-    if (emailCorrect === true && lozinkaCorrect === true && potvrdiLozinkuCorrect === true) {
+    if (emailCorrect === true && lozinkaCorrect === true && potvrdiLozinkuCorrect === true && nicknameCorrect === true) {
         registerButton.disabled = false;
     } else {
         registerButton.disabled = true;
@@ -115,6 +135,7 @@ function login() {
 
 function register() {
     var email = document.getElementById("emailRegister").value;
+    var nickname = document.getElementById("nicknameRegister").value;
     var lozinka = document.getElementById("lozinkaRegister").value;
     var potvrdiLozinku = document.getElementById("potvrdiLozinkuRegister").value;
     var zapamtiMe = document.getElementById("zapamtiMeRegister").checked;
@@ -125,6 +146,7 @@ function register() {
         url: serviceURL,
         data: JSON.stringify({
             "Email": email,
+            "Nickname": nickname,
             "Lozinka": lozinka,
             "PotvrdiLozinku": potvrdiLozinku,
             "ZapamtiMe": zapamtiMe

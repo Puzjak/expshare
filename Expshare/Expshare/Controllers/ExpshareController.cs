@@ -44,6 +44,7 @@ namespace Expshare.Controllers
             if (!ModelState.IsValid) return Json(new LoginAndRegisterResponse
             {
                 Email = string.Empty,
+                Nickname = string.Empty,
                 IsAuthenticated = false,
                 ErrorMessage = "Provjerite unesene parametre"
             });
@@ -115,13 +116,7 @@ namespace Expshare.Controllers
 
         public IActionResult Home()
         {
-            var id = User.Claims
-                .Where(x => x.Type == ClaimTypes.NameIdentifier)
-                .Select(x => x.Value)
-                .Single();
-            var grupe = _context.TrenutnoStanjeKorisnikaUgrupi
-                .Where(x => x.IdKorisnik.Equals(new Guid(id)))
-                .ToList();
+            ViewData["user"] = Helper.DodajIme(HttpContext);
             return View();
         }
 
@@ -132,7 +127,6 @@ namespace Expshare.Controllers
                 .Select(x => new { id = x.Value })
                 .Single());
         }
-
 
         public JsonResult DohvatiUkupnoStanjeKorisnika(Guid id)
         {
@@ -150,11 +144,12 @@ namespace Expshare.Controllers
                 .Where(x => x.IdGrupa == id)
                 .Select(x => new
                 {
-                    IdGrupa = x.IdGrupa,
-                    NazivGrupa = x.IdGrupaNavigation.NazivGrupa,
-                    IdKorisnik = x.IdKorisnik,
+                    x.IdGrupa,
+                    x.IdGrupaNavigation.NazivGrupa,
+                    x.IdKorisnik,
                     Email = x.IdKorisnikNavigation.EmailKorisnik,
-                    Stanje = x.Stanje
+                    x.IdKorisnikNavigation.Nickname,
+                    x.Stanje
                 })
                 .ToList());
         }
@@ -211,7 +206,7 @@ namespace Expshare.Controllers
                     IdDugovatelj = x.IdDugovatelj, 
                     Email = x.IdDugovatelj != trenutniKorisnik ? 
                         x.IdDugovateljNavigation.EmailKorisnik : 
-                        x.IdKorisnikNavigation.EmailKorisnik, 
+                        x.IdKorisnikNavigation.EmailKorisnik,
                     IdGrupa = x.IdGrupa, 
                     Stanje = x.Stanje
                 })
@@ -231,15 +226,18 @@ namespace Expshare.Controllers
         {
             var postojeciKorisnik = _context.Korisnik
                 .Where(x => x.EmailKorisnik.ToLower() == model.Email.ToLower())
+                .Where(x => x.Nickname == model.Nickname)
                 .SingleOrDefault();
             if(postojeciKorisnik == null)
             {
                 postojeciKorisnik = new Korisnik
                 {
                     ID = Guid.NewGuid(),
-                    EmailKorisnik = model.Email
+                    EmailKorisnik = model.Email,
+                    Nickname = model.Nickname
                 };
                 _context.Korisnik.Add(postojeciKorisnik);
+
             }
 
             _context.GrupaKorisnik.Add(new GrupaKorisnik
@@ -259,7 +257,8 @@ namespace Expshare.Controllers
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, korisnik.EmailKorisnik),
+                new Claim(ClaimTypes.Name, korisnik.Nickname),
+                new Claim(ClaimTypes.Email, korisnik.EmailKorisnik),
                 new Claim(ClaimTypes.NameIdentifier, korisnik.ID.ToString())
             };
 
@@ -283,6 +282,7 @@ namespace Expshare.Controllers
             var postojeciKorisnik = _context.Korisnik
                 .Include(x => x.Lozinka)
                 .Where(x => x.EmailKorisnik.ToLower() == model.Email.ToLower())
+                .Where(x => x.Nickname == model.Nickname)
                 .SingleOrDefault();
             if (postojeciKorisnik != null && postojeciKorisnik.Lozinka != null) return null;
             Korisnik korisnik;
@@ -291,6 +291,7 @@ namespace Expshare.Controllers
                 korisnik = new Korisnik
                 {
                     ID = Guid.NewGuid(),
+                    Nickname = model.Nickname,
                     EmailKorisnik = model.Email
                 };
             }

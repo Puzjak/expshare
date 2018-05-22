@@ -4,6 +4,9 @@
                 .Where(x => x.Type == ClaimTypes.NameIdentifier)
                 .Select(x => new Guid(x.Value))
                 .Single())
+@{ 
+    ViewData["title"] = "Početna";
+}
 
 
 <div class="modal fade" id="detaljiGrupeModal" role="dialog" data-backdrop="static" data-keyboard="false">

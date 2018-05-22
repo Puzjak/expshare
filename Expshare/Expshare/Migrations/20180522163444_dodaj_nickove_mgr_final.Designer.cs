@@ -11,9 +11,10 @@ using System;
 namespace Expshare.Migrations
 {
     [DbContext(typeof(ExpShareContext))]
-    partial class ExpShareContextModelSnapshot : ModelSnapshot
+    [Migration("20180522163444_dodaj_nickove_mgr_final")]
+    partial class dodaj_nickove_mgr_final
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

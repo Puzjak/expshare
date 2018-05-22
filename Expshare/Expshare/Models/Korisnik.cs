@@ -14,6 +14,7 @@ namespace Expshare.Models
 
         public Guid ID { get; set; }
         public string EmailKorisnik { get; set; }
+        public string Nickname { get; set; }
 
         public Lozinka Lozinka { get; set; }
         public TrenutnoStanjeKorisnika TrenutnoStanjeKorisnika { get; set; }

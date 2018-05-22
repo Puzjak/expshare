@@ -58,6 +58,11 @@ namespace Expshare.Models
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Nickname)
+                .HasMaxLength(50)
+                .IsRequired()
+                .IsUnicode(true);
             });
 
             modelBuilder.Entity<Lozinka>(entity =>

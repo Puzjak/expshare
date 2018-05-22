@@ -11,9 +11,10 @@ using System;
 namespace Expshare.Migrations
 {
     [DbContext(typeof(ExpShareContext))]
-    partial class ExpShareContextModelSnapshot : ModelSnapshot
+    [Migration("20180522162946_dodaj_nickove_migr")]
+    partial class dodaj_nickove_migr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,8 +64,7 @@ namespace Expshare.Migrations
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
-                    b.Property<string>("Nickname")
-                        .IsRequired()
+                    b.Property<string>("NickName")
                         .HasMaxLength(50)
                         .IsUnicode(true);
 
