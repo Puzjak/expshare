@@ -11,9 +11,10 @@ using System;
 namespace Expshare.Migrations
 {
     [DbContext(typeof(ExpShareContext))]
-    partial class ExpShareContextModelSnapshot : ModelSnapshot
+    [Migration("20180522181734_tskug_pk_update2")]
+    partial class tskug_pk_update2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,7 +159,8 @@ namespace Expshare.Migrations
             modelBuilder.Entity("Expshare.Models.TrenutnoStanjeKorisnikaUgrupi", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("newid()");
 
                     b.Property<Guid>("IdGrupa");
 

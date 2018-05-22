@@ -102,7 +102,9 @@ namespace Expshare.Models
 
             modelBuilder.Entity<TrenutnoStanjeKorisnikaUgrupi>(entity =>
             {
-                entity.HasKey(e => e.IdKorisnik);
+                entity.HasKey(x => x.Id);
+                //entity.Property(x => x.Id).HasDefaultValueSql("newid()");
+                //entity.HasKey(e => new { e.IdKorisnik, e.IdGrupa });
 
                 entity.ToTable("TrenutnoStanjeKorisnikaUGrupi");
 

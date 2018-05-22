@@ -11,9 +11,10 @@ using System;
 namespace Expshare.Migrations
 {
     [DbContext(typeof(ExpShareContext))]
-    partial class ExpShareContextModelSnapshot : ModelSnapshot
+    [Migration("20180522182036_tskug_pk_update3")]
+    partial class tskug_pk_update3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

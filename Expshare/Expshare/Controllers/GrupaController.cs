@@ -88,7 +88,8 @@ namespace Expshare.Controllers
                 {
                     IdKorisnik = par.IdKorisnik,
                     IdGrupa = grupa.ID,
-                    Stanje = 0.0M
+                    Stanje = 0.0M,
+                    Id = new Guid()
                 };
 
                 _context.Add(grupa); //dodajem grupu
