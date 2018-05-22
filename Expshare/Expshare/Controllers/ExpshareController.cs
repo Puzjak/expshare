@@ -85,6 +85,7 @@ namespace Expshare.Controllers
             if (!ModelState.IsValid) return Json(new LoginAndRegisterResponse
             {
                 Email = string.Empty,
+                Nickname = string.Empty,
                 IsAuthenticated = false,
                 ErrorMessage = "Provjerite unesene parametre!"
             });
@@ -94,6 +95,7 @@ namespace Expshare.Controllers
                 return Json(new LoginAndRegisterResponse
                 {
                     Email = model.Email,
+                    Nickname = model.Nickname,
                     IsAuthenticated = false,
                     ErrorMessage = "Lozinke se ne podudaraju!"
                 });
@@ -103,6 +105,7 @@ namespace Expshare.Controllers
             return Json(new LoginAndRegisterResponse
             {
                 Email = model.Email,
+                Nickname = model.Nickname,
                 IsAuthenticated = true
             });
         }
@@ -202,13 +205,16 @@ namespace Expshare.Controllers
                 .Where(x => x.IdKorisnik == trenutniKorisnik && x.IdGrupa == idGrupa)
                 .Select(x => new
                 {
-                    IdKorisnik = x.IdKorisnik, 
-                    IdDugovatelj = x.IdDugovatelj, 
-                    Email = x.IdDugovatelj != trenutniKorisnik ? 
-                        x.IdDugovateljNavigation.EmailKorisnik : 
+                    x.IdKorisnik,
+                    x.IdDugovatelj,
+                    Email = x.IdDugovatelj != trenutniKorisnik ?
+                        x.IdDugovateljNavigation.EmailKorisnik :
                         x.IdKorisnikNavigation.EmailKorisnik,
-                    IdGrupa = x.IdGrupa, 
-                    Stanje = x.Stanje
+                    Nickname = x.IdDugovatelj != trenutniKorisnik ?
+                        x.IdDugovateljNavigation.Nickname :
+                        x.IdKorisnikNavigation.Nickname,
+                    x.IdGrupa,
+                    x.Stanje
                 })
                 .ToList();
             return Json(stanjeIzmeduKorisnika);
@@ -228,7 +234,7 @@ namespace Expshare.Controllers
                 .Where(x => x.EmailKorisnik.ToLower() == model.Email.ToLower())
                 .Where(x => x.Nickname == model.Nickname)
                 .SingleOrDefault();
-            if(postojeciKorisnik == null)
+            if (postojeciKorisnik == null)
             {
                 postojeciKorisnik = new Korisnik
                 {
@@ -308,7 +314,7 @@ namespace Expshare.Controllers
                 LozinkaHash = passwordHash,
                 LozinkaSalt = passwordSalt
             };
-            if(postojeciKorisnik == null)
+            if (postojeciKorisnik == null)
             {
                 _context.Korisnik.Add(korisnik);
             }
