@@ -8,25 +8,26 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label">E-mail</label>
-                <input asp-for="Email" class="form-control" id="emailLogin" oninput="checkLogin()"/>
+                <input asp-for="Email" class="form-control" id="emailLogin" oninput="checkLogin()" />
                 <span asp-validation-for="Email" class="text-danger" id="emailLoginSpan"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Lozinka" class="control-label"></label>
-                <input asp-for="Lozinka" class="form-control" id="lozinkaLogin" oninput="checkLogin()" type="password"/>
+                <input asp-for="Lozinka" class="form-control" id="lozinkaLogin" oninput="checkLogin()" type="password" />
                 <span asp-validation-for="Lozinka" class="text-danger" id="lozinkaLoginSpan"></span>
             </div>
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="ZapamtiMe" id="zapamtiMeLogin"/> @Html.DisplayNameFor(model => model.ZapamtiMe)
+                        <input asp-for="ZapamtiMe" id="zapamtiMeLogin" /> @Html.DisplayNameFor(model => model.ZapamtiMe)
                     </label>
                 </div>
             </div>
             <div class="form-group">
-                <input value="Log in" class="btn btn-default" id="loginButton" onclick="login()" disabled/>
+                <input value="Log in" class="btn btn-default" id="loginButton" onclick="login()" disabled />
             </div>
         </form>
+        <button onclick="window.location.href='/Register'">Registriraj se</button>
     </div>
 </div>
 
