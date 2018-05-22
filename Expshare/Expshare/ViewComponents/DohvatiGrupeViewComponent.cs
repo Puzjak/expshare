@@ -19,16 +19,18 @@ namespace Expshare.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(Guid ID)
         {
-            var grupe = await DohvatiGrupeAsync(ID);
+            var grupe =  DohvatiGrupeAsync(ID);
             return View(grupe);
         }
 
-        private async Task<List<TrenutnoStanjeKorisnikaUgrupi>> DohvatiGrupeAsync(Guid ID)
+        private List<TrenutnoStanjeKorisnikaUgrupi> DohvatiGrupeAsync(Guid ID)
         {
-            return await _context.TrenutnoStanjeKorisnikaUgrupi
-                .Include(x => x.IdGrupaNavigation)
+            var q = _context.TrenutnoStanjeKorisnikaUgrupi
                 .Where(x => x.IdKorisnik.Equals(ID))
-                .ToListAsync();
+                .ToList();
+
+
+            return q;
         }
     }
 }

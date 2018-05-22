@@ -29,6 +29,7 @@
             var ukupniMojiDugovi = 0;
             var ukupniDugoviPremaMeni = 0;
             var trenutniKorisnik = document.getElementById('trenutniKorisnik').value;
+            var razrijesiSOsobomSelect = document.getElementById('razrijesiSOsobom');
             for (var i = 0; i < data.length; i++) {
                 if (data[i].stanje > 0) {
                     var row = dugoviPremaMeniTable.insertRow(dugoviPremaMeniRowId);
@@ -46,6 +47,11 @@
                     stanje.innerHTML = parseFloat(-data[i].stanje).toFixed(2) + ' kn';
                     ukupniMojiDugovi = ukupniMojiDugovi - data[i].stanje;
                     mojiDugoviRowId++;
+                }
+                razrijesiSOsobomSelect.add(new Option(data[i].nickname, data[i].email));
+                if (i === 0) {
+                    var razrijesiIznos = document.getElementById('razrijesiIznos');
+                    razrijesiIznos.value = - data[i].stanje;
                 }
             }
             var lastRow = mojiDugoviTable.insertRow(mojiDugoviRowId);
@@ -155,9 +161,11 @@ function osvjeziPodatke() {
 function dodajClana() {
     var dodajClanaEmail = document.getElementById('dodajClanaEmail').value;
     var trenutnaGrupa = document.getElementById('trenutnaGrupa').value;
+    var nickname = document.getElementById('nickname').value;
     var dodajClanaViewModel = {
         Email: dodajClanaEmail,
-        IdGrupa: trenutnaGrupa
+        IdGrupa: trenutnaGrupa, 
+        NickName: nickname
     };
     var serviceURL = '/Expshare/DodajClana/';
     $.ajax({
@@ -192,4 +200,57 @@ function deleteOptions(select) {
     for (var i = optionCount - 1; i >= 0; i--) {
         options.remove(i);
     }
+}
+
+function razrijesiDugove() {
+    var trenutnaGrupa = document.getElementById('trenutnaGrupa').value;
+    var razrijesiSOsobom = document.getElementById('razrijesiSOsobom').value;
+    var trenutniKorisnik = document.getElementById('trenutniKorisnik').value;
+    var razrijesiIznos = document.getElementById('razrijesiIznos').value;
+    var razrijesiDugoveViewModel = {
+        IdKorisnik: trenutniKorisnik,
+        PrimateljEmail: razrijesiSOsobom,
+        IdGrupa: trenutnaGrupa,
+        Iznos: razrijesiIznos
+    }
+    var url = '/Expshare/RazrijesiDugove';
+    $.ajax({
+        type: "POST",
+        url: url,
+        async: true,
+        dataType: "json",
+        data: JSON.stringify(razrijesiDugoveViewModel),
+        contentType: "application/json; charset=utf-8",
+        success: function (data, status) {
+            osvjeziPodatke();
+        },
+        error: function () {
+
+        }
+
+    });
+}
+
+function iznosZaRazrjesavanje() {
+    var trenutnaGrupa = document.getElementById('trenutnaGrupa').value;
+    var razrijesiSOsobom = document.getElementById('razrijesiSOsobom').value;
+    serviceURL = '/Expshare/DohvatiStanjeIzmeduKorisnika/?idGrupa=' + trenutnaGrupa;
+    $.ajax({
+        type: "GET",
+        url: serviceURL,
+        async: true,
+        dataType: "json",
+        success: function (data, status) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].email.toLowerCase() === razrijesiSOsobom.toLowerCase()) {
+                    var razrijesiIznos = document.getElementById('razrijesiIznos');
+                    razrijesiIznos.value = - data[i].stanje;
+                    break;
+                }
+            }
+        },
+        error: function () {
+
+        }
+    });
 }

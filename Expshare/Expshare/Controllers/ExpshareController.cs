@@ -120,7 +120,27 @@ namespace Expshare.Controllers
         public IActionResult Home()
         {
             ViewData["user"] = Helper.DodajIme(HttpContext);
-            return View();
+            var id = User.Claims.Where(s => s.Type == ClaimTypes.NameIdentifier)
+                .Select(s => new Guid(s.Value)).Single();
+            var grupa = _context.Grupa;
+            var tskug = _context.TrenutnoStanjeKorisnikaUgrupi;
+            var model = _context.GrupaKorisnik.Join(grupa, k => k.IdGrupa, g => g.ID, (k, g) => new TrenutnoStanjeKorisnikaUgrupi
+            {
+                IdGrupa = g.ID,
+                IdGrupaNavigation = new Grupa { NazivGrupa = g.NazivGrupa },
+                IdKorisnik = k.IdKorisnik,
+                Stanje = 0
+            })
+            .Join(tskug, x => new { x.IdGrupa, x.IdKorisnik}, ts => new { ts.IdGrupa, ts.IdKorisnik}, (x, ts) => new TrenutnoStanjeKorisnikaUgrupi
+            {
+                IdGrupa = x.IdGrupa, 
+                IdKorisnik = x.IdKorisnik, 
+               IdGrupaNavigation = x.IdGrupaNavigation,
+               Stanje = ts.Stanje
+            }
+            ).Where(x => x.IdKorisnik == id).ToList();
+
+            return View(model);
         }
 
         public JsonResult DohvatiIDTrenutnogKorisnika()
@@ -227,12 +247,29 @@ namespace Expshare.Controllers
                 .Select(x => x.NazivGrupa).SingleOrDefault());
         }
 
+        public JsonResult RazrijesiDugove([FromBody]RazrijesiDugoveViewModel model)
+        {
+            var primateljId = _context.Korisnik.Where(x => x.EmailKorisnik.ToLower() == model.PrimateljEmail.ToLower()).Select(x => x.ID).Single();
+            var transakcija = new Transakcija
+            {
+                ID = Guid.NewGuid(),
+                Datum = DateTime.Now,
+                IdGrupa = model.IdGrupa,
+                IdPlatitelj = model.Iznos < 0 ? primateljId : model.IdKorisnik,
+                IdPrimatelj = model.Iznos < 0 ? model.IdKorisnik : primateljId,
+                Iznos = model.Iznos < 0 ? -model.Iznos : model.Iznos
+            };
+            _context.Transakcija.Add(transakcija);
+            _context.SaveChanges();
+            _context.UpdateTrenutnoStanje(new List<Guid> { model.IdKorisnik, primateljId });
+            return Json("");
+        }
+
         [HttpPost]
         public JsonResult DodajClana([FromBody]DodajClanaViewModel model)
         {
             var postojeciKorisnik = _context.Korisnik
                 .Where(x => x.EmailKorisnik.ToLower() == model.Email.ToLower())
-                .Where(x => x.Nickname == model.Nickname)
                 .SingleOrDefault();
             if (postojeciKorisnik == null)
             {
@@ -240,7 +277,7 @@ namespace Expshare.Controllers
                 {
                     ID = Guid.NewGuid(),
                     EmailKorisnik = model.Email,
-                    Nickname = model.Nickname
+                    Nickname = model.Nickname == null ? " " : model.Nickname
                 };
                 _context.Korisnik.Add(postojeciKorisnik);
 
@@ -250,7 +287,7 @@ namespace Expshare.Controllers
             {
                 ID = Guid.NewGuid(),
                 IdGrupa = model.IdGrupa,
-                IdKorisnik = postojeciKorisnik.ID
+                IdKorisnik = postojeciKorisnik.ID 
             });
             _context.SaveChanges();
 

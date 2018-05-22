@@ -90,9 +90,9 @@ function checkRegister() {
     var emailCorrect = validateEmail(email, emailSpan);
     var lozinkaCorrect = validateLozinka(lozinka, lozinkaSpan);
     var potvrdiLozinkuCorrect = validatePotvrdiLozinku(lozinka, potvrdiLozinku, potvrdiLozinkuSpan);
-    var nicknameCorrect = validateNickname(nickname, nicknameSpan);
+    //var nicknameCorrect = validateNickname(nickname, nicknameSpan);
 
-    if (emailCorrect === true && lozinkaCorrect === true && potvrdiLozinkuCorrect === true && nicknameCorrect === true) {
+    if (emailCorrect === true && lozinkaCorrect === true && potvrdiLozinkuCorrect === true) {
         registerButton.disabled = false;
     } else {
         registerButton.disabled = true;
