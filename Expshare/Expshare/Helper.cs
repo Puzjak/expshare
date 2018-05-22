@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
@@ -67,6 +68,12 @@ namespace Expshare
             context.TrenutnoStanjeKorisnikaUgrupi.AddRange(computedTrenutnoStanjeKorisnikaUGrupi);
             context.StanjeIzmeduKorisnika.AddRange(computedStanjeIzmeduKorisnika);
             context.SaveChanges();
+        }
+
+        public static string DodajIme(Microsoft.AspNetCore.Http.HttpContext context)
+        {
+            return context.User.Claims.Where(s => s.Type == ClaimTypes.Name)
+                .Select(s => s.Value).Single();
         }
     }
 }

@@ -34,7 +34,7 @@
                     var row = dugoviPremaMeniTable.insertRow(dugoviPremaMeniRowId);
                     var email = row.insertCell(0);
                     var stanje = row.insertCell(1);
-                    email.innerHTML = data[i].email;
+                    email.innerHTML = data[i].nickname;
                     stanje.innerHTML = parseFloat(data[i].stanje).toFixed(2) + ' kn';
                     ukupniDugoviPremaMeni = ukupniDugoviPremaMeni + data[i].stanje;
                     dugoviPremaMeniRowId++;
@@ -42,7 +42,7 @@
                     var row = mojiDugoviTable.insertRow(mojiDugoviRowId);
                     var email = row.insertCell(0);
                     var stanje = row.insertCell(1);
-                    email.innerHTML = data[i].email;
+                    email.innerHTML = data[i].nickname;
                     stanje.innerHTML = parseFloat(-data[i].stanje).toFixed(2) + ' kn';
                     ukupniMojiDugovi = ukupniMojiDugovi - data[i].stanje;
                     mojiDugoviRowId++;
@@ -75,15 +75,15 @@
             var clanoviKreirajUplatu = document.getElementById('clanoviKreirajUplatu');
             for (var i = 0; i < data.length; i++) {
                 var row = groupTableBody.insertRow(i);
-                var email = row.insertCell(0);
+                var nickname = row.insertCell(0);
                 var stanje = row.insertCell(1);
-                email.innerHTML = data[i].email;
+                nickname.innerHTML = data[i].nickname;
                 stanje.innerHTML = parseFloat(data[i].stanje).toFixed(2) + ' kn';
                 if (data[i].stanje < 0) {
                     stanje.style.color = 'red';
                 }
                 if (data[i].idKorisnik !== trenutniKorisnik) {
-                    clanoviKreirajUplatu.options.add(new Option(data[i].email, data[i].idKorisnik, true, true));
+                    clanoviKreirajUplatu.options.add(new Option(data[i].nickname, data[i].idKorisnik, true, true));
                 }
             }
         },

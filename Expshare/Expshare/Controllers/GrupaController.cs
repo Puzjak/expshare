@@ -23,29 +23,35 @@ namespace Expshare.Controllers
             _context = context;
         }
 
-        // GET: Grupa
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await _context.Grupa.ToListAsync());
-        //}
+        //GET: Grupa/Details/5
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var id_korisnik = User.Claims
+                .Where(x => x.Type == ClaimTypes.NameIdentifier)
+                .Select(x => new Guid(x.Value))
+                .Single();
 
-        // GET: Grupa/Details/5
-        //public async Task<IActionResult> Details(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (_context.GrupaKorisnik
+                .Where(x => x.IdKorisnik.Equals(id_korisnik))
+                .Any(x => x.IdGrupa.Equals(id))) {
+                return NotFound();
+            }
 
-        //    var grupa = await _context.Grupa
-        //        .SingleOrDefaultAsync(m => m.ID == id);
-        //    if (grupa == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(grupa);
-        //}
+            var grupa = await _context.GrupaKorisnik
+                //.Include(x => x.IdGrupaNavigation)
+                .Include(x => x.IdKorisnikNavigation)
+                .Where(x => x.IdGrupa.Equals(id)).ToListAsync();
+            if (grupa == null)
+            {
+                return NotFound();
+            }
+            ViewData["ime"] = _context.Grupa.Where(x => x.ID.Equals(id)).Select(x => x.NazivGrupa).Single();
+            return View(grupa);
+        }
 
         // GET: Grupa/Create
         public IActionResult Create()

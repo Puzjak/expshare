@@ -1,22 +1,34 @@
-﻿@model Expshare.Models.Grupa
+﻿@model IEnumerable<Expshare.Models.GrupaKorisnik>
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Grupa " + ViewData["ime"];
 }
 
-<h2>Details</h2>
+<h2>@ViewData["ime"]</h2>
 
 <div>
-    <h4>Grupa</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.NazivGrupa)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NazivGrupa)
-        </dd>
-    </dl>
+    <table>
+        <th>
+            Ime člana
+        </th>
+        <th>
+            Stanje člana (ovo implementirati ajaxom)
+        </th>
+        <th></th>
+        @foreach (var clan in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(c => clan.IdKorisnikNavigation.EmailKorisnik)
+                </td>
+                <td>
+                    stanje
+                </td>
+            </tr>
+
+        }
+    </table>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |

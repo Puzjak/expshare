@@ -9,8 +9,13 @@
 
             <div class="form-group">
                 <label asp-for="Email" class="control-label">E-mail</label>
-                <input asp-for="Email" class="form-control" id="emailRegister" oninput="checkRegister()"/>
+                <input asp-for="Email" class="form-control" id="emailRegister" oninput="checkRegister()" />
                 <span asp-validation-for="Email" class="text-danger" id="emailRegisterSpan"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nickname" class="control-label">Nadimak</label>
+                <input asp-for="Nickname" class="form-control" id="nicknameRegister" oninput="checkRegister()" />
+                <span asp-validation-for="Nickname" class="text-danger" id="nickameRegisterSpan"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Lozinka" class="control-label">Lozinka</label>
@@ -25,12 +30,12 @@
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="ZapamtiMe" id="zapamtiMeRegister"/> @Html.DisplayNameFor(model => model.ZapamtiMe)
+                        <input asp-for="ZapamtiMe" id="zapamtiMeRegister" /> @Html.DisplayNameFor(model => model.ZapamtiMe)
                     </label>
                 </div>
             </div>
             <div class="form-group">
-                <input value="Create" class="btn btn-default" id="registerButton" disabled onclick="register()"/>
+                <input value="Create" class="btn btn-default" id="registerButton" disabled onclick="register()" />
             </div>
         </form>
     </div>

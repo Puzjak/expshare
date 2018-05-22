@@ -9,6 +9,7 @@ namespace Expshare.ViewModels
     {
         public string Email { get; set; }
         public string Lozinka { get; set; }
+        public string Nickname { get; set; }
         public bool ZapamtiMe { get; set; } = false;
     }
 }

@@ -23,14 +23,12 @@ namespace Expshare.ViewComponents
             return View(grupe);
         }
 
-        private Task<List<TrenutnoStanjeKorisnikaUgrupi>> DohvatiGrupeAsync(Guid ID)
+        private async Task<List<TrenutnoStanjeKorisnikaUgrupi>> DohvatiGrupeAsync(Guid ID)
         {
-
-            var grupe =  _context.TrenutnoStanjeKorisnikaUgrupi
+            return await _context.TrenutnoStanjeKorisnikaUgrupi
                 .Include(x => x.IdGrupaNavigation)
                 .Where(x => x.IdKorisnik.Equals(ID))
                 .ToListAsync();
-            return grupe;
         }
     }
 }
