@@ -129,10 +129,11 @@ function kreirajUplatu() {
         dataType: "json",
         data: JSON.stringify(kreirajUplatuViewModel),
         contentType: "application/json; charset=utf-8",
-        success: function (data, status) {
+        success: function(data, status) {
             osvjeziPodatke();
             hideLoadingImage();
             showAfterLoading();
+        },
         error: function () {
 
         }
