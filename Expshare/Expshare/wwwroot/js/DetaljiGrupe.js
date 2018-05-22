@@ -94,6 +94,12 @@
 }
 
 function kreirajUplatu() {
+    hideWhileLoading();
+    showLoadingImage();
+    var kreirajButton = document.getElementById('buttonKreirajUplatu');
+    kreirajButton.disabled = true;
+    var dodajButton = document.getElementById('buttonDodajClana');
+    dodajButton.disabled = true;
     var serviceURL = '/Expshare/KreirajUplatu/';
     var trenutnaGrupa = document.getElementById('trenutnaGrupa').value;
     var trenutniKorisnik = document.getElementById('trenutniKorisnik').value;
@@ -123,13 +129,22 @@ function kreirajUplatu() {
         dataType: "json",
         data: JSON.stringify(kreirajUplatuViewModel),
         contentType: "application/json; charset=utf-8",
-        success: function (data, status) {
+        success: function(data, status) {
             osvjeziPodatke();
+            hideLoadingImage();
+            showAfterLoading();
         },
         error: function () {
 
         }
     });
+}
+function showLoadingImage() {
+    document.getElementById('loading').style.display = "block";
+}
+
+function hideLoadingImage() {
+    document.getElementById('loading').style.display = "none";
 }
 
 function closeDetaljiGrupeModal(reload = true) {
@@ -146,10 +161,22 @@ function closeDetaljiGrupeModal(reload = true) {
     }
 }
 
+function hideWhileLoading() {
+    document.getElementById('hideWhileLoading').style.display = "none";
+}
+
+function showAfterLoading() {
+    document.getElementById('hideWhileLoading').style.display = "block";
+}
+
 function osvjeziPodatke() {
     var trenutnaGrupa = document.getElementById('trenutnaGrupa').value;
     closeDetaljiGrupeModal(false);
     detaljiGrupeModal(trenutnaGrupa);
+    var kreirajButton = document.getElementById('buttonKreirajUplatu');
+    kreirajButton.disabled = false;
+    var dodajButton = document.getElementById('buttonDodajClana');
+    dodajButton.disabled = false;
 }
 
 function dodajClana() {
