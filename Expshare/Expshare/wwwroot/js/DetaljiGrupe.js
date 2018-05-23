@@ -188,10 +188,12 @@ function closeDetaljiGrupeModal(reload = true) {
     var mojiDugoviTable = document.getElementById('mojiDugoviTable');
     var dugoviPremaMeniTable = document.getElementById('dugovanjaPremaMeniTable');
     var select = document.getElementById('clanoviKreirajUplatu');
+    var razrijesiSOsobomSelect = document.getElementById('razrijesiSOsobom');
     deleteRows(detaljiGrupeTable);
     deleteRows(mojiDugoviTable);
     deleteRows(dugoviPremaMeniTable);
     deleteOptions(select);
+    deleteOptions(razrijesiSOsobomSelect);
     if (reload === true) {
         window.location.reload();
     }
